@@ -31,7 +31,7 @@ Users can search movies, filter by type, navigate through pages, and view detail
 
 1. Clone the repository:
    
-   git clone https://github.com/your-username/movie-search-app.git
+   git clone https://github.com/premasanub/moviesearch
 
 2. Navigate to project folder:
    
