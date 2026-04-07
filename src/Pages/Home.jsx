@@ -1,7 +1,7 @@
 import { useState ,useEffect} from "react";
 import { searchMovies } from "../api/omdb";
 import MovieCard from "../Components/MovieCard";
-import Pagination from "../components/Pagination";
+import Pagination from "../Components/Pagination";
 import "../Home.css";
 
 function Home() {
