@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { searchMovies } from "../api/omdb";
 import MovieCard from "../Components/MovieCard";
 import Pagination from "../components/Pagination";
 import "../Home.css";
 
 function Home() {
+  
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
@@ -12,9 +13,9 @@ function Home() {
   const [type, setType] = useState("");
   const [error, setError] = useState("");
 
-  const fetchMovies = async (newPage = 1) => {
+  const fetchMovies = async (newPage = 1,searchText=query) => {
     try {
-      const data = await searchMovies(query, newPage, type);
+      const data = await searchMovies(searchText, newPage, type);
 
       if (data.Response === "False") {
         setError(data.Error);
@@ -24,20 +25,59 @@ function Home() {
         setTotalResults(Number(data.totalResults));
         setError("");
         setPage(newPage);
+
+        //store
+        localStorage.setItem("search",searchText);
+        localStorage.setItem("page",newPage);
+        localStorage.setItem("type",type);
+        localStorage.setItem("results",JSON.stringify(data.Search));
       }
     } catch (err) {
       setError("Something went wrong!");
     }
   };
 
+
+
+  
+const loadFromLocalStorage =()=>{
+const savedSearch =localStorage.getItem("search");
+const savedPage =localStorage.getItem("page");
+const savedType =localStorage.getItem("type");
+const savedResults =localStorage.getItem("results");
+if(savedSearch){
+  setQuery(savedSearch);
+  setPage(Number(savedPage) || 1);
+  setMovies(JSON.parse(savedResults)||[]);
+  setType(savedType || "");
+}
+};
+useEffect(()=>{
+  loadFromLocalStorage();
+},[]);
+
+ 
+
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchMovies(1);
   };
 
+  const resetHome=()=>{
+    localStorage.clear();
+    setQuery("");
+    setMovies([]);
+    setPage(1);
+    setType("");
+  };
+
   return (
     <div className="container">
-      <h1>🎬 Movie Search App</h1>
+      {/* <h1>🎬 Movie Search App</h1> */}
+
+ <button  onClick={resetHome}>🎬 Movie Search App</button>
 
       {/* Search Form */}
       <form onSubmit={handleSubmit} className="search-box">
