@@ -150,4 +150,4 @@ GitHub: https://github.com/premasanub
 
 ---
 Deployment Link:
-deployed on Vercel: https://movie-search-app-pi.vercel.app/
+deployed on Vercel: https://moviesearch-nhig.vercel.app/
